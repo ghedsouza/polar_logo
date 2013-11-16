@@ -6,8 +6,9 @@
 		<style>
 			#container {
 				background: #000;
-				width: 400px;
-				height: 300px;
+				width: 500px;
+				height: 500px;
+				margin: 0;
 			}
 		</style>
 	</head>
@@ -21,8 +22,8 @@
 	<script type="text/javascript">
 
 	// set the scene size
-	var WIDTH = 400,
-	    HEIGHT = 300;
+	var WIDTH = 500,
+	    HEIGHT = 500;
 
 	// set some camera attributes
 	var VIEW_ANGLE = 45,
@@ -41,12 +42,12 @@
 		VIEW_ANGLE,
         ASPECT,
         NEAR,
-        FAR,
+        FAR
         );
 	var scene = new THREE.Scene();
 
 	// the camera starts at 0,0,0 so pull it back
-	camera.position.z = 10;
+	camera.position.z = 2;
 
 	// start the renderer
 	renderer.setSize(WIDTH, HEIGHT);
@@ -67,7 +68,7 @@
 	// we will cover the sphereMaterial next!
 	var sphere = new THREE.Mesh(
 	   new THREE.SphereGeometry(radius, segments, rings),
-	   sphereMaterial,
+	   sphereMaterial
 	   );
 
 	// add the sphere to the scene
@@ -75,8 +76,8 @@
 
 	var geom = new THREE.Geometry(); 
 	var v1 = new THREE.Vector3(0,0,0);
-	var v2 = new THREE.Vector3(0,500,0);
-	var v3 = new THREE.Vector3(0,500,500);
+	var v2 = new THREE.Vector3(1,0,0);
+	var v3 = new THREE.Vector3(1,1,0);
 
 	geom.vertices.push(v1);
 	geom.vertices.push(v2);
@@ -85,10 +86,9 @@
 	geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
 	geom.computeFaceNormals();
 
-	var object = new THREE.Mesh( geom, new THREE.MeshNormalMaterial() );
+	var object = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
 
-	object.position.z = -100;//move a bit back - size of 500 is a bit big
-	object.rotation.y = -Math.PI * .5;//triangle is pointing in depth, rotate it -90 degrees on Y
+	// object.position.z = -100;//move a bit back - size of 500 is a bit big
 
 	scene.add(object);
 
