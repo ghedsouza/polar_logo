@@ -20,7 +20,22 @@
 	<script src="http://threejs.org/build/three.min.js"></script>
 
 	<script type="text/javascript">
-
+	function assert(condition, message) {
+	    if (!condition) {
+	        throw message || "Assertion failed";
+	    }
+	}
+	function rad(deg) {
+		return deg * Math.PI / 180;
+	}
+	function letter_index(letter) {
+		assert(letter.length != 1);
+		assert(letter >= "a");
+		assert(letter <= "z");
+		var index = letter.charCodeAt(0) - 97;
+		assert(index >= 0 && index <= 25);
+		return index;
+	}
 	// set the scene size
 	var WIDTH = 500,
 	    HEIGHT = 500;
@@ -47,7 +62,7 @@
 	var scene = new THREE.Scene();
 
 	// the camera starts at 0,0,0 so pull it back
-	camera.position.z = 2;
+	camera.position.z = 3;
 
 	// start the renderer
 	renderer.setSize(WIDTH, HEIGHT);
@@ -74,10 +89,14 @@
 	// add the sphere to the scene
 	scene.add(sphere);
 
-	var geom = new THREE.Geometry(); 
-	var v1 = new THREE.Vector3(0,0,0);
-	var v2 = new THREE.Vector3(1,0,0);
-	var v3 = new THREE.Vector3(1,1,0);
+	function V3(x,y,z) {
+		return new THREE.Vector3(x,y,z);
+	}
+
+	var geom = new THREE.Geometry();
+	var v1 = V3(0,0,0);
+	var v2 = V3(1,0,0);
+	var v3 = V3(1,1,0);
 
 	geom.vertices.push(v1);
 	geom.vertices.push(v2);
@@ -87,6 +106,40 @@
 	geom.computeFaceNormals();
 
 	var object = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
+
+	// Polar Logo
+	alpha = 45; // degrees
+	var logo = function(){
+		var a = V3(0,0,0);
+		var b = V3(0,0,0);
+		var c = V3(0,0,0);
+		var d = V3(0,0,0);
+		var e = V3(0,0,0);
+		var f = V3(0,0,0);
+		var g = V3(1, Math.tan(rad(alpha)), 0)
+		var h = V3(0,0,0);
+		var i = V3(0,0,0);
+		var j = V3(0,1,0);
+		var k = V3(0,0,0);
+		var l = V3(0,0,0);
+		var m = V3(0,0,0);
+
+		var logo_geom = new THREE.Geometry();
+
+		for(v in [a,b,c,d,e,f,g,h,i,j,k,l,m]){
+			geom.vertices.push(v);
+		}
+
+		geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
+		geom.computeFaceNormals();
+
+		var logo_object = new THREE.Mesh(
+			logo_geom,
+			new THREE.MeshNormalMaterial()
+			);
+		return logo_object;
+	}()
+	scene.add(logo)
 
 	// object.position.z = -100;//move a bit back - size of 500 is a bit big
 
