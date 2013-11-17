@@ -77,19 +77,21 @@
 	// Polar Logo
 	alpha = 30; // degrees
 	var logo = function(){
+		var g_height = Math.tan(rad(alpha));
+
 		var a = V3(0,0,0);
 		var b = V3(0,0,0);
 		var c = V3(0,0,0);
 		var d = V3(0,0,0);
 		var e = V3(0,0,0);
 		var f = V3(0,0,0);
-		var g = V3(1, Math.tan(rad(alpha)), 0)
+		var g = V3(1, g_height, 0)
 		var h = V3(0,0,0);
 		var i = V3(0,0,0);
 		var j = V3(0,1,0);
 		var k = V3(0,0,0);
 		var l = V3(0,0,0);
-		var m = V3(0,0,0);
+		var m = V3(1, 1 + g_height, 0);
 
 		var logo_geom = new THREE.Geometry();
         var verts = [a,b,c,d,e,f,g,h,i,j,k,l,m];
@@ -97,21 +99,32 @@
 			logo_geom.vertices.push(verts[ii]);
 		}
 
-        function pF3(l1, l2, l3) {
+		vomit = new THREE.Color( 0x00ff55 );
+		green = new THREE.Color( 0x00ff00 );
+		purple = new THREE.Color( 0xff00ff );
+		red = new THREE.Color( 0xff0000 );
+		blue = new THREE.Color( 0x0000ff );
+
+        function pF3(l1, l2, l3, color) {
             return new THREE.Face3(
                 letter_index(l1),
                 letter_index(l2),
-                letter_index(l3)
+                letter_index(l3),
+                null,
+                color
             )
         }
 
-        logo_geom.faces.push(pF3('i','g','j'));
+        logo_geom.faces.push(pF3('i','g','j', purple));
+        logo_geom.faces.push(pF3('g','m','j', green));
 
 		logo_geom.computeFaceNormals();
 
 		var logo_object = new THREE.Mesh(
 			logo_geom,
-			new THREE.MeshNormalMaterial()
+			new THREE.MeshPhongMaterial({
+				vertexColors: THREE.FaceColors
+				})
 			);
 
 		return logo_object;
