@@ -64,7 +64,7 @@
 
 	// the camera starts at 0,0,0 so pull it back
 	camera.position.z = 10;
-	camera.position.x = 1;
+	// camera.position.x = 1;
 	camera.position.y = 1;
 
 	// start the renderer
@@ -120,21 +120,26 @@
             )
         }
 
-        logo_geom.faces.push(pF3('i','g','j', purple));
-        logo_geom.faces.push(pF3('g','m','j', green));
-        logo_geom.faces.push(pF3('h','g','i', red));
+        function add_front_and_back_face(l1, l2, l3, color) {
+        	logo_geom.faces.push(pF3(l1, l2, l3, color));
+        	logo_geom.faces.push(pF3(l3, l2, l1, color));
+        }
 
-        logo_geom.faces.push(pF3('m','b','j', vomit));
-        logo_geom.faces.push(pF3('j','b','a', vomit));
+        add_front_and_back_face('i','g','j', purple);
+        add_front_and_back_face('g','m','j', green);
+        add_front_and_back_face('h','g','i', red);
 
-        logo_geom.faces.push(pF3('k','c','b', blue));
-        logo_geom.faces.push(pF3('d','c','k', blue));
+        add_front_and_back_face('m','b','j', vomit);
+        add_front_and_back_face('j','b','a', vomit);
 
-        logo_geom.faces.push(pF3('g','l','m', blue));
-        logo_geom.faces.push(pF3('f','l','g', blue));
+        add_front_and_back_face('k','c','b', blue);
+        add_front_and_back_face('d','c','k', blue);
 
-        logo_geom.faces.push(pF3('e','d','f', blue));
-        logo_geom.faces.push(pF3('f','d','n', blue));
+        add_front_and_back_face('g','l','m', blue);
+        add_front_and_back_face('f','l','g', blue);
+
+        add_front_and_back_face('e','d','f', blue);
+        add_front_and_back_face('f','d','n', blue);
 
 		logo_geom.computeFaceNormals();
 
@@ -165,7 +170,7 @@
 
 	function animate() {
 		requestAnimationFrame( animate );
-		//logo.rotation.y += 0.01;
+		logo.rotation.y += 0.01;
 		// draw!
 		renderer.render(scene, camera);
 	}
