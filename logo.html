@@ -29,7 +29,7 @@
 		return deg * Math.PI / 180;
 	}
 	function letter_index(letter) {
-		assert(letter.length != 1);
+		assert(letter.length === 1);
 		assert(letter >= "a");
 		assert(letter <= "z");
 		var index = letter.charCodeAt(0) - 97;
@@ -127,23 +127,27 @@
 		var logo_geom = new THREE.Geometry();
 
 		for(v in [a,b,c,d,e,f,g,h,i,j,k,l,m]){
-			geom.vertices.push(v);
+			logo_geom.vertices.push(v);
 		}
 
-		geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
-		geom.computeFaceNormals();
+		logo_geom.faces.push(new THREE.Face3(
+            letter_index('i'),
+			letter_index('g'),
+			letter_index('j')
+			));
+		logo_geom.computeFaceNormals();
 
 		var logo_object = new THREE.Mesh(
 			logo_geom,
 			new THREE.MeshNormalMaterial()
 			);
 		return logo_object;
-	}()
-	scene.add(logo)
+	}();
+	scene.add(logo);
 
 	// object.position.z = -100;//move a bit back - size of 500 is a bit big
 
-	scene.add(object);
+	//scene.add(object);
 
 	// and the camera
 	scene.add(camera);
