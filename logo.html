@@ -108,7 +108,7 @@
 	var object = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
 
 	// Polar Logo
-	alpha = 45; // degrees
+	alpha = 30; // degrees
 	var logo = function(){
 		var a = V3(0,0,0);
 		var b = V3(0,0,0);
@@ -125,11 +125,11 @@
 		var m = V3(0,0,0);
 
 		var logo_geom = new THREE.Geometry();
-
-		for(v in [a,b,c,d,e,f,g,h,i,j,k,l,m]){
-			logo_geom.vertices.push(v);
+        var verts = [a,b,c,d,e,f,g,h,i,j,k,l,m];
+		for(var ii = 0; ii<verts.length; ii++){
+			logo_geom.vertices.push(verts[ii]);
 		}
-
+        
 		logo_geom.faces.push(new THREE.Face3(
             letter_index('i'),
 			letter_index('g'),
@@ -141,6 +141,7 @@
 			logo_geom,
 			new THREE.MeshNormalMaterial()
 			);
+        
 		return logo_object;
 	}();
 	scene.add(logo);
