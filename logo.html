@@ -15,6 +15,7 @@
 	<body>
 		<div id="container">
 		</div>
+		<img src="http://polar.me/wp-content/themes/polar/library/images/polar-logo.png">
 	</body>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="vendor/three.js"></script>
@@ -63,6 +64,8 @@
 
 	// the camera starts at 0,0,0 so pull it back
 	camera.position.z = 10;
+	camera.position.x = 1;
+	camera.position.y = 1;
 
 	// start the renderer
 	renderer.setSize(WIDTH, HEIGHT);
@@ -75,35 +78,37 @@
 	}
 
 	// Polar Logo
-	alpha = 30; // degrees
+	var alpha = 30; // degrees
 	var logo = function(){
 		var g_height = Math.tan(rad(alpha));
+		var h_depth = 1 - g_height;
 
-		var a = V3(0,0,0);
-		var b = V3(0,0,0);
-		var c = V3(0,0,0);
-		var d = V3(0,0,0);
-		var e = V3(0,0,0);
-		var f = V3(0,0,0);
-		var g = V3(1, g_height, 0)
-		var h = V3(0,0,0);
+		var a = V3(0, 3, 0);
+		var b = V3(1, 3 + g_height, 0);
+		var c = V3(3, 3 + 3*g_height, 0);
+		var d = V3(3, 2 + 3*g_height, 0);
+		var e = V3(3, 3*g_height, 0)
+		var f = V3(2, 2*g_height, 0)
+		var g = V3(1, g_height, 0);
+		var h = V3(1, -h_depth, 0);
 		var i = V3(0,0,0);
 		var j = V3(0,1,0);
-		var k = V3(0,0,0);
-		var l = V3(0,0,0);
+		var k = V3(1, 2 + g_height, 0);
+		var l = V3(2, 1 + 2*g_height, 0);
 		var m = V3(1, 1 + g_height, 0);
+		var n = V3(2, 2 + 2*g_height, 0);
 
 		var logo_geom = new THREE.Geometry();
-        var verts = [a,b,c,d,e,f,g,h,i,j,k,l,m];
+        var verts = [a,b,c,d,e,f,g,h,i,j,k,l,m,n];
 		for(var ii = 0; ii<verts.length; ii++){
 			logo_geom.vertices.push(verts[ii]);
 		}
 
-		vomit = new THREE.Color( 0x00ff55 );
-		green = new THREE.Color( 0x00ff00 );
+		vomit = new THREE.Color( 0xBAD646 );
+		green = new THREE.Color( 0x33B24A );
 		purple = new THREE.Color( 0xff00ff );
-		red = new THREE.Color( 0xff0000 );
-		blue = new THREE.Color( 0x0000ff );
+		red = new THREE.Color( 0xF15B29 );
+		blue = new THREE.Color( 0x1877AB );
 
         function pF3(l1, l2, l3, color) {
             return new THREE.Face3(
@@ -117,6 +122,19 @@
 
         logo_geom.faces.push(pF3('i','g','j', purple));
         logo_geom.faces.push(pF3('g','m','j', green));
+        logo_geom.faces.push(pF3('h','g','i', red));
+
+        logo_geom.faces.push(pF3('m','b','j', vomit));
+        logo_geom.faces.push(pF3('j','b','a', vomit));
+
+        logo_geom.faces.push(pF3('k','c','b', blue));
+        logo_geom.faces.push(pF3('d','c','k', blue));
+
+        logo_geom.faces.push(pF3('g','l','m', blue));
+        logo_geom.faces.push(pF3('f','l','g', blue));
+
+        logo_geom.faces.push(pF3('e','d','f', blue));
+        logo_geom.faces.push(pF3('f','d','n', blue));
 
 		logo_geom.computeFaceNormals();
 
@@ -145,7 +163,12 @@
 	// add to the scene
 	scene.add(pointLight);
 
-	// draw!
-	renderer.render(scene, camera);
+	function animate() {
+		requestAnimationFrame( animate );
+		//logo.rotation.y += 0.01;
+		// draw!
+		renderer.render(scene, camera);
+	}
+	animate();
 	</script>
 </html>
