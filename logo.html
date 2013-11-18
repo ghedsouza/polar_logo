@@ -170,11 +170,11 @@
     scene.add(pointLight);
 
     function animate() {
-        requestAnimationFrame( animate );
-        logo.rotation.y += 0.01;
+        logo.rotation.y += 0.03;
         // draw!
         renderer.render(scene, camera);
+        requestAnimationFrame( animate );
     }
-    animate();
+    requestAnimationFrame( animate );
     </script>
 </html>
